@@ -1,7 +1,7 @@
 # csv2sql
 Command line tool for converting a CSV file into a single SQL table
 
-<PRE>
+<pre>
 Usage: java -jar csv2sql.jar OPTIONS
 Options category 'Basic':
   --[no]create [-r] (a boolean; default: "false")

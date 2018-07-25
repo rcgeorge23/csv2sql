@@ -93,19 +93,23 @@ public class Csv2Sql {
     private static List<ColumnDescriptor> buildColumnDescriptors(String[] row) {
         List<ColumnDescriptor> columnDescriptors = new ArrayList<>();
 
+        int columnIndex = 0;
+
         for (String csvColumnName : row) {
             ColumnDescriptor columnDescriptor = new ColumnDescriptor();
             columnDescriptor.setCsvColumnName(csvColumnName);
-            columnDescriptor.setDatabaseColumnName(toDatabaseColumnName(csvColumnName));
+            columnDescriptor.setDatabaseColumnName(toDatabaseColumnName(csvColumnName, columnIndex));
             columnDescriptor.setDataType(DataType.TEXT);
 //            columnDescriptor.setLength(21844);
             columnDescriptors.add(columnDescriptor);
+
+            columnIndex++;
         }
 
         return columnDescriptors;
     }
 
-    private static String toDatabaseColumnName(String csvColumnName) {
+    private static String toDatabaseColumnName(String csvColumnName, int columnIndex) {
         String result = csvColumnName.toLowerCase().replaceAll("\\s+", "_").replaceAll("[^a-zA-Z0-9_]", "");
 
         if (result.length() > 64) {
@@ -113,7 +117,7 @@ public class Csv2Sql {
         }
 
         if (result.length() == 0) {
-            result = UUID.randomUUID().toString().replace("-", "");
+            result = "generated_column_name_" + columnIndex;
         }
 
         return result;
