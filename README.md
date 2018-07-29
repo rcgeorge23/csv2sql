@@ -8,8 +8,6 @@ Options category 'Basic':
     Include 'create' statement
   --csvfile [-c] (a string; default: "")
     The input CSV file
-  --sqlfile [-s] (a string; default: "")
-    The output SQL file
   --table [-t] (a string; default: "")
     The name of the table<br/>
 </pre>
