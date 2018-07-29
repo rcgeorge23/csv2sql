@@ -15,15 +15,6 @@ public class CommandLineOptions extends OptionsBase {
     public String csvFilename;
 
     @Option(
-            name = "sqlfile",
-            abbrev = 's',
-            help = "The output SQL file",
-            category = "Basic",
-            defaultValue = ""
-    )
-    public String sqlFilename;
-
-    @Option(
             name = "create",
             abbrev = 'r',
             help = "Include 'create' statement",

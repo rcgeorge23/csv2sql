@@ -2,12 +2,14 @@ package uk.co.novinet.csv2sql;
 
 import com.google.devtools.common.options.OptionsParser;
 import com.opencsv.CSVReader;
-import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import static org.apache.commons.lang3.StringUtils.isBlank;
@@ -15,7 +17,7 @@ import static org.apache.commons.lang3.StringUtils.isBlank;
 public class Csv2Sql {
     private static void printUsage(OptionsParser parser) {
         System.out.println("Usage: java -jar csv2sql.jar OPTIONS");
-        System.out.println(parser.describeOptions(Collections.<String, String>emptyMap(), OptionsParser.HelpVerbosity.LONG));
+        System.out.println(parser.describeOptions(Collections.emptyMap(), OptionsParser.HelpVerbosity.LONG));
     }
 
     public static void main(String[] args) throws IOException {
@@ -23,7 +25,7 @@ public class Csv2Sql {
         parser.parseAndExitUponError(args);
         CommandLineOptions options = parser.getOptions(CommandLineOptions.class);
 
-        if (isBlank(options.csvFilename) || isBlank(options.sqlFilename)) {
+        if (isBlank(options.csvFilename) || isBlank(options.tableName)) {
             printUsage(parser);
             return;
         }
@@ -54,7 +56,7 @@ public class Csv2Sql {
             index++;
         }
 
-        FileUtils.write(new File(options.sqlFilename), buf.toString(), "UTF-8");
+        System.out.println(buf.toString());
 
         reader.close();
         csvReader.close();
@@ -69,7 +71,7 @@ public class Csv2Sql {
     }
 
     private static String tableCreationSql(List<ColumnDescriptor> columnDescriptors, String tableName) throws IOException {
-        String sql = "CREATE TABLE IF NOT EXISTS `%s` (%s) ENGINE=MyISAM DEFAULT CHARSET=utf8;";
+        String sql = "CREATE TABLE IF NOT EXISTS `%s` (%s) ENGINE=MyISAM DEFAULT CHARSET=utf8;\n";
 
         StringBuffer buf = new StringBuffer();
 
